@@ -72,7 +72,8 @@ export async function getStaticProps({ params = {} } = {}) {
     props: {
       post,
       site
-    }
+    },
+    revalidate: 60
   }
 }
 
