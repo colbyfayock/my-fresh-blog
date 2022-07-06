@@ -1,18 +1,15 @@
-# Next.js WPGraphQL Basic Starter
+# Update & Revalidate Content from a Headless CMS in Next.js with Incremental Static Regeneration
 
-## ⚡️ Quick Start
+Demo for tutorial [How to Update & Revalidate Content from a Headless CMS in Next.js with Incremental Static Regeneration](https://www.spacejelly.dev)
 
-### Requirements
-* [WordPress](https://wordpress.org/)
-* [WPGraphQL](https://www.wpgraphql.com/)
+🚀 See Demo: https://my-fresh-blog.vercel.app/
 
-```bash
-yarn create next-app -e https://github.com/colbyfayock/next-wpgraphql-basic-starter
-# or
-npx create-next-app -e https://github.com/colbyfayock/next-wpgraphql-basic-starter
-```
+📝 Article: Coming...
 
-Add an `.env.local` file to the root with the following:
-```
-WORDPRESS_GRAPHQL_ENDPOINT="http://yourhost.com/graphql"
-```
+## More tutorials and walkthroughs
+
+🐦 [Follow me on Twitter](https://twitter.com/colbyfayock)
+
+📺 [Subscribe on YouTube](https://www.youtube.com/colbyfayock)
+
+✉️ [Sign Up for My Newsletter](https://colbyfayock.com/newsletter)
