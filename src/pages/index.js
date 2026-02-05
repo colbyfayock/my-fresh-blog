@@ -76,15 +76,15 @@ export async function getStaticProps() {
     `,
   });
 
-  const posts = data?.data.posts.edges.map(({ node }) => node).map(post => {
+  const posts = data?.data?.posts?.edges?.map(({ node }) => node).map(post => {
     return {
       ...post,
       path: `/posts/${post.slug}`
     }
-  });
+  }) || [];
 
   const page = {
-    ...data?.data.generalSettings
+    ...data?.data?.generalSettings
   }
 
   return {

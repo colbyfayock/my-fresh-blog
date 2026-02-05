@@ -96,7 +96,7 @@ export async function getStaticPaths() {
     `,
   });
 
-  const posts = data?.data.posts.edges.map(({ node }) => node);
+  const posts = data?.data?.posts?.edges?.map(({ node }) => node) || [];
 
   return {
     paths: posts.map(({ slug }) => {
