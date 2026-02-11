@@ -18,3 +18,4 @@ Demo for tutorial [How to Update & Revalidate Content from a Headless CMS in Nex
 📺 [Subscribe on YouTube](https://www.youtube.com/colbyfayock)
 
 ✉️ [Sign Up for My Newsletter](https://colbyfayock.com/newsletter)
+
