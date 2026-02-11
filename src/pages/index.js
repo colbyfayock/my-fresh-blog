@@ -26,11 +26,9 @@ export default function Home({ page, posts }) {
             return (
               <li key={post.slug} className={styles.card}>
                 <Link href={post.path}>
-                  <a>
-                    <h3 dangerouslySetInnerHTML={{
-                      __html: post.title
-                    }} />
-                  </a>
+                  <h3 dangerouslySetInnerHTML={{
+                    __html: post.title
+                  }} />
                 </Link>
                 <div dangerouslySetInnerHTML={{
                   __html: post.excerpt
@@ -55,36 +53,50 @@ export default function Home({ page, posts }) {
 export async function getStaticProps() {
   const apolloClient = getApolloClient();
 
-  const data = await apolloClient.query({
-    query: gql`
-      {
-        generalSettings {
-          title
-          description
-        }
-        posts(first: 10000) {
-          edges {
-            node {
-              id
-              excerpt
-              title
-              slug
+  let posts = [];
+  let page = {
+    title: 'Space Jelly',
+    description: 'Cosmic web dev tutorials that will shock you with joy!'
+  };
+
+  try {
+    const data = await apolloClient.query({
+      query: gql`
+        {
+          generalSettings {
+            title
+            description
+          }
+          posts(first: 10000) {
+            edges {
+              node {
+                id
+                excerpt
+                title
+                slug
+              }
             }
           }
         }
-      }
-    `,
-  });
+      `,
+    });
 
-  const posts = data?.data.posts.edges.map(({ node }) => node).map(post => {
-    return {
-      ...post,
-      path: `/posts/${post.slug}`
+    if (data?.data?.posts?.edges) {
+      posts = data.data.posts.edges.map(({ node }) => node).map(post => {
+        return {
+          ...post,
+          path: `/posts/${post.slug}`
+        }
+      });
     }
-  });
 
-  const page = {
-    ...data?.data.generalSettings
+    if (data?.data?.generalSettings) {
+      page = {
+        ...data.data.generalSettings
+      };
+    }
+  } catch (error) {
+    console.error('Error fetching posts:', error.message);
   }
 
   return {

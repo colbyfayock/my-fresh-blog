@@ -32,3 +32,7 @@ yarn-error.log*
 
 # vercel
 .vercel
+
+# scratch folder for upgrade notes
+scratch/
+.env*.local
