@@ -32,3 +32,10 @@ yarn-error.log*
 
 # vercel
 .vercel
+
+# scratch folder for upgrade notes
+scratch/
+.env*.local
+
+# Local Netlify folder
+.netlify

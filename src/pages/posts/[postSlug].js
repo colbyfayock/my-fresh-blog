@@ -28,9 +28,7 @@ export default function Post({ post, site }) {
 
         <p className={styles.backToHome}>
           <Link href="/">
-            <a>
-              &lt; Back to home
-            </a>
+            &lt; Back to home
           </Link>
         </p>
       </main>
@@ -43,29 +41,44 @@ export async function getStaticProps({ params = {} } = {}) {
 
   const apolloClient = getApolloClient();
 
-  const data = await apolloClient.query({
-    query: gql`
-      query PostBySlug($slug: String!) {
-        generalSettings {
-          title
+  let post = null;
+  let site = { title: 'Space Jelly' };
+
+  try {
+    const data = await apolloClient.query({
+      query: gql`
+        query PostBySlug($slug: String!) {
+          generalSettings {
+            title
+          }
+          postBy(slug: $slug) {
+            id
+            content
+            title
+            slug
+          }
         }
-        postBy(slug: $slug) {
-          id
-          content
-          title
-          slug
-        }
+      `,
+      variables: {
+        slug: postSlug
       }
-    `,
-    variables: {
-      slug: postSlug
+    });
+
+    post = data?.data?.postBy || null;
+
+    if (data?.data?.generalSettings) {
+      site = {
+        ...data.data.generalSettings
+      };
     }
-  });
+  } catch (error) {
+    console.error('Error fetching post:', error.message);
+  }
 
-  const post = data?.data.postBy;
-
-  const site = {
-    ...data?.data.generalSettings
+  if (!post) {
+    return {
+      notFound: true
+    };
   }
 
   return {
@@ -80,23 +93,31 @@ export async function getStaticProps({ params = {} } = {}) {
 export async function getStaticPaths() {
   const apolloClient = getApolloClient();
 
-  const data = await apolloClient.query({
-    query: gql`
-      {
-        posts(first: 10000) {
-          edges {
-            node {
-              id
-              title
-              slug
+  let posts = [];
+
+  try {
+    const data = await apolloClient.query({
+      query: gql`
+        {
+          posts(first: 10000) {
+            edges {
+              node {
+                id
+                title
+                slug
+              }
             }
           }
         }
-      }
-    `,
-  });
+      `,
+    });
 
-  const posts = data?.data.posts.edges.map(({ node }) => node);
+    if (data?.data?.posts?.edges) {
+      posts = data.data.posts.edges.map(({ node }) => node);
+    }
+  } catch (error) {
+    console.error('Error fetching post paths:', error.message);
+  }
 
   return {
     paths: posts.map(({ slug }) => {
